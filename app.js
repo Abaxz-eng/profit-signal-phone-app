@@ -1,5 +1,7 @@
 const $ = (selector) => document.querySelector(selector);
 const isPagesPreview = location.hostname.endsWith("github.io");
+let allSignals = [];
+let activeFilter = "all";
 
 function urlBase64ToUint8Array(value) {
   const padding = "=".repeat((4 - value.length % 4) % 4);
@@ -15,34 +17,28 @@ function formatTime(seconds) {
 
 function renderSignals(signals) {
   const list = $("#signal-list");
-  $("#latest-levels").hidden = true;
-  $("#latest-levels").style.display = "none";
-  $(".signal-band").className = "signal-band";
+  allSignals = signals;
+  const visibleSignals = activeFilter === "all" ? signals : signals.filter((signal) => signal.action.toLowerCase() === activeFilter);
+  $("#signal-count").textContent = signals.length;
+  $("#active-count").textContent = signals.filter((signal) => signal.status === "executed").length;
+  $(".pulse-panel").className = "pulse-panel";
   if (!signals.length) {
     $("#latest-action").textContent = "WAIT";
-    $("#latest-time").textContent = "No 5/5 signal received yet";
-    list.innerHTML = '<p class="empty">No 5/5 signals received yet.</p>';
+    $("#latest-time").textContent = "Waiting for a closed H1 setup";
+    list.innerHTML = '<p class="empty">No closed-candle 5/5 signals yet.</p>';
     return;
   }
-  list.innerHTML = signals.map((signal) => {
+  list.innerHTML = visibleSignals.length ? visibleSignals.map((signal) => {
     const result = signal.result || {};
     const action = signal.action.toLowerCase();
-    return `<article class="signal-item">
-      <span class="action ${action}">${signal.action}</span>
-      <span>XAUUSD · H1<small>SL ${result.stop ?? "—"} · TP ${result.target ?? "—"}</small></span>
-      <time>${formatTime(signal.received_at)}</time>
-    </article>`;
-  }).join("");
+    return `<article class="signal-card ${action}"><div class="signal-top"><h3>XAUUSD</h3><span class="action-chip ${action}">${signal.action}</span><span class="signal-state">CLOSED H1</span></div><div class="signal-levels"><span>ENTRY<strong>${result.price ?? "MARKET"}</strong></span><span>STOP<strong>${result.stop ?? "—"}</strong></span><span class="target">TARGET<strong>${result.target ?? "—"}</strong></span></div><time class="signal-time">${formatTime(signal.received_at)} · 5/5 confirmed</time></article>`;
+  }).join("") : '<p class="empty">No signals match this filter.</p>';
 
   const latest = signals[0];
   const latestResult = latest.result || {};
   $("#latest-action").textContent = `${latest.action} 5/5`;
   $("#latest-time").textContent = `Closed signal · ${formatTime(latest.received_at)}`;
-  $("#latest-stop").textContent = latestResult.stop ?? "—";
-  $("#latest-target").textContent = latestResult.target ?? "—";
-  $("#latest-levels").hidden = false;
-  $("#latest-levels").style.display = "grid";
-  $(".signal-band").className = `signal-band ${latest.action.toLowerCase()}`;
+  $(".pulse-panel").className = `pulse-panel ${latest.action.toLowerCase()}`;
 }
 
 async function refresh() {
@@ -119,6 +115,13 @@ if ("serviceWorker" in navigator) navigator.serviceWorker.register("./service-wo
 $("#enable-notifications").addEventListener("click", enableNotifications);
 $("#setup-code").addEventListener("input", () => {
   $("#notification-status").textContent = "";
+});
+document.querySelectorAll(".filter").forEach((button) => {
+  button.addEventListener("click", () => {
+    activeFilter = button.dataset.filter;
+    document.querySelectorAll(".filter").forEach((item) => item.classList.toggle("active", item === button));
+    renderSignals(allSignals);
+  });
 });
 $("#refresh").addEventListener("click", refresh);
 refresh();

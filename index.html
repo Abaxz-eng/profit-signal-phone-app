@@ -1,66 +1,15 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#101316">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Profit Signal</title>
-  <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="icon" href="./icon.svg">
-  <link rel="apple-touch-icon" href="./icon.svg">
-  <link rel="stylesheet" href="./styles.css">
-</head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#080809"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>Profit Signal</title><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg"><link rel="apple-touch-icon" href="./icon.svg"><link rel="stylesheet" href="./styles.css"></head>
 <body>
-  <header>
-    <div>
-      <p class="eyebrow">XAUUSD · H1</p>
-      <h1>Profit Signal</h1>
-    </div>
-    <span id="connection" class="status">Connecting</span>
-  </header>
-
+  <header class="app-header"><div class="brand-mark" aria-hidden="true">PS</div><div class="brand-copy"><p class="eyebrow">Closed-candle intelligence</p><h1>Profit Signal</h1></div><span id="connection" class="status"><i></i> Connecting</span></header>
   <main>
-    <section class="signal-band" aria-labelledby="latest-title">
-      <div>
-        <p class="eyebrow" id="latest-title">Latest closed signal</p>
-        <h2 id="latest-action">WAIT</h2>
-        <p id="latest-time">No 5/5 signal received yet</p>
-      </div>
-      <div class="levels" id="latest-levels" hidden style="display: none">
-        <span>STOP <strong id="latest-stop">—</strong></span>
-        <span>TARGET <strong id="latest-target">—</strong></span>
-      </div>
-    </section>
-
-    <section class="notification-panel">
-      <div>
-        <h2>Phone alerts</h2>
-        <p id="notification-help">Install this app, then enable notifications.</p>
-      </div>
-      <label for="setup-code">Setup code</label>
-      <div class="setup-row">
-        <input id="setup-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000">
-        <button id="enable-notifications">Enable</button>
-      </div>
-      <p id="notification-status" role="status"></p>
-    </section>
-
-    <section class="history" aria-labelledby="history-title">
-      <div class="section-heading">
-        <h2 id="history-title">Signal history</h2>
-        <button id="refresh" class="icon-button" aria-label="Refresh signals" title="Refresh signals">↻</button>
-      </div>
-      <div id="signal-list" class="signal-list"></div>
-    </section>
+    <section class="pulse-panel" aria-labelledby="pulse-title"><div class="score-ring"><strong>5/5</strong><span>FILTER</span></div><div class="pulse-copy"><p class="eyebrow" id="pulse-title">Market pulse</p><h2 id="latest-action">WAIT</h2><p id="latest-time">Waiting for a closed H1 setup</p></div><div class="pulse-symbol"><span>XAUUSD</span><strong>H1</strong></div></section>
+    <section class="metric-strip" aria-label="Signal summary"><div><strong id="active-count">0</strong><span>ACTIVE</span></div><div><strong id="signal-count">0</strong><span>SIGNALS</span></div><div><strong id="subscriber-count">0</strong><span>PHONES</span></div></section>
+    <p class="risk-notice">Educational signals only. Trading involves risk of loss.</p>
+    <section class="controls" aria-label="Signal filters"><span class="live-label"><i></i> Live</span><div class="segmented" role="group" aria-label="Filter signals"><button class="filter active" data-filter="all">All</button><button class="filter" data-filter="buy">Buy</button><button class="filter" data-filter="sell">Sell</button></div><button id="refresh" class="icon-button" aria-label="Refresh signals" title="Refresh signals">↻</button></section>
+    <section class="history" aria-labelledby="history-title"><div class="section-heading"><div><p class="eyebrow">XAUUSD · H1</p><h2 id="history-title">Signal feed</h2></div><span id="mode" class="mode-chip">Preview</span></div><div id="signal-list" class="signal-list"></div></section>
+    <section class="notification-panel" id="alerts"><div class="notification-heading"><div class="bell" aria-hidden="true">!</div><div><h2>Phone alerts</h2><p id="notification-help">Interface preview. Live alerts connect through the private API.</p></div></div><label for="setup-code">Private setup code</label><div class="setup-row"><input id="setup-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000"><button id="enable-notifications">Preview</button></div><p id="notification-status" role="status"></p></section>
   </main>
-
-  <nav>
-    <span><strong id="mode">Dry run</strong><small>Trade mode</small></span>
-    <span><strong>0.01</strong><small>Maximum lot</small></span>
-    <span><strong id="subscriber-count">0</strong><small>Phones</small></span>
-  </nav>
+  <nav class="bottom-nav"><a href="#history-title" class="selected"><strong>◆</strong><span>Signals</span></a><a href="#alerts"><strong>●</strong><span>Alerts</span></a><span><strong>0.01</strong><span>Max lot</span></span></nav>
   <script src="./app.js" defer></script>
-</body>
-</html>
+</body></html>
