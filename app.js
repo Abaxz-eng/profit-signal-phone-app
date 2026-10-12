@@ -111,6 +111,9 @@ async function enableNotifications() {
 
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("./service-worker.js");
 $("#enable-notifications").addEventListener("click", enableNotifications);
+$("#setup-code").addEventListener("input", () => {
+  $("#notification-status").textContent = "";
+});
 $("#refresh").addEventListener("click", refresh);
 refresh();
 setInterval(refresh, 60000);
