@@ -123,6 +123,19 @@ document.querySelectorAll(".filter").forEach((button) => {
     renderSignals(allSignals);
   });
 });
+document.querySelectorAll("[data-go]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const page = button.dataset.go;
+    document.querySelectorAll(".app-page").forEach((item) => item.classList.toggle("active", item.dataset.page === page));
+    document.querySelectorAll(".nav-item").forEach((item) => item.classList.toggle("selected", item.dataset.go === page));
+    window.scrollTo({top: 0, behavior: "smooth"});
+  });
+});
+$("#calculate-risk").addEventListener("click", () => {
+  const balance = Math.max(0, Number($("#balance").value));
+  const riskPercent = Math.min(2, Math.max(0, Number($("#risk-percent").value)));
+  $("#risk-money").textContent = `$${(balance * riskPercent / 100).toFixed(2)}`;
+});
 $("#refresh").addEventListener("click", refresh);
 refresh();
 setInterval(refresh, 60000);
