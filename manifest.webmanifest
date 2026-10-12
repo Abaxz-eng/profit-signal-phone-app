@@ -1,0 +1,10 @@
+{
+  "name": "Profit Signal",
+  "short_name": "Profit Signal",
+  "description": "Closed-candle XAUUSD H1 trade signal notifications",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#101316",
+  "theme_color": "#101316",
+  "icons": [{"src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable"}]
+}
