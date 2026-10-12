@@ -15,7 +15,12 @@ function formatTime(seconds) {
 
 function renderSignals(signals) {
   const list = $("#signal-list");
+  $("#latest-levels").hidden = true;
+  $("#latest-levels").style.display = "none";
+  $(".signal-band").className = "signal-band";
   if (!signals.length) {
+    $("#latest-action").textContent = "WAIT";
+    $("#latest-time").textContent = "No 5/5 signal received yet";
     list.innerHTML = '<p class="empty">No 5/5 signals received yet.</p>';
     return;
   }
@@ -36,6 +41,7 @@ function renderSignals(signals) {
   $("#latest-stop").textContent = latestResult.stop ?? "—";
   $("#latest-target").textContent = latestResult.target ?? "—";
   $("#latest-levels").hidden = false;
+  $("#latest-levels").style.display = "grid";
   $(".signal-band").className = `signal-band ${latest.action.toLowerCase()}`;
 }
 
